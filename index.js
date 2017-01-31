@@ -69,15 +69,15 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
     transclude: 'attributes',
     scope: {
       ngModel: '=',
-      ngChange: '=?'
+      ngChange: '=?',
+      options: '<',
     },
     require: '^ngModel',
     template: '<div class="rome-container">' +
-      '<span class="rome-view">{{formattedValue}}</span><input type="text" ng-transclude class="rome-input"></div>',
+      '<input type="text" ng-transclude class="rome-input"></div>',
     link: function (scope, el, attrs) {
       var rome_instance;
       var input = el.find('input');
-
       /**
        * Rome Config
        *
@@ -96,12 +96,16 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
         max: attrs.romeMax,
         inputFormat: attrs.romeInputFormat,
         timeInterval: attrs.romeTimeInterval
-      });
+      }, scope.options);
 
       /**
        * Initialize Rome with the merged config from above.
        */
       rome_instance = rome(input[0], config);
+
+      scope.options.getApi = function() {
+        return rome_instance;
+      };
 
       // Hack to ensure all other rome directives are loaded so range validation will find a matching element.
       $interval(function () {
@@ -131,8 +135,7 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
       });
 
       function formatDate() {
-        scope.ngModel = rome_instance.getDateString();
-        scope.formattedValue = rome_instance.getDateString(attrs.viewFormat || romeDefaults.viewFormat) || romeDefaults.labelValue;
+        scope.ngModel = rome_instance.getDateString(attrs.viewFormat || romeDefaults.labelValue);
       }
 
       rome_instance.on('ready', function() {
@@ -144,7 +147,6 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
 
       rome_instance.on('data', function (value) {
         scope.$apply(function () {
-          scope.ngModel = value;
           formatDate();
         });
       });
@@ -152,7 +154,6 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
       scope.$watch('ngModel', function(value) {
         if (value) {
           rome_instance.setValue(value);
-          scope.formattedValue = rome_instance.getDateString(attrs.viewFormat || romeDefaults.viewFormat) || romeDefaults.labelValue;
         }
       }, true);
     }
