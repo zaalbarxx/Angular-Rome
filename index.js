@@ -1,10 +1,11 @@
-/*global angular */
-var rome = require('rome');
-var moment = require('moment');
-var _merge = require('lodash.merge');
-var rome_module = angular.module('rome', []);
+import angular from 'angular';
+import rome from 'rome';
+import moment from 'moment';
+import merge from 'lodash.merge';
 
-rome_module.provider('romeDefaults', function romeDefaultsProvider() {
+let romeModule = angular.module('rome', []);
+
+romeModule.provider('romeDefaults', function romeDefaultsProvider() {
   return {
     options: {},
     $get: function() {
@@ -16,7 +17,7 @@ rome_module.provider('romeDefaults', function romeDefaultsProvider() {
   }
 });
 
-rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirective(romeDefaults, $interval) {
+romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirective(romeDefaults, $interval) {
   "use strict";
 
   function stringToBool(str) {
@@ -28,17 +29,17 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
    * Pass rome-* a the ng-model of a rome element
    */
   function rangeValidation(attrs, config) {
-    var romeValidator = attrs.romeBefore || attrs.romeBeforeEq || attrs.romeAfterEq || attrs.romeAfter;
+    let romeValidator = attrs.romeBefore || attrs.romeBeforeEq || attrs.romeAfterEq || attrs.romeAfter;
     if (romeValidator) {
-      var has_id = romeValidator.indexOf('#') === 0;
-      var matched_element;
-      var search_attr;
-      var rome_elements = angular.element(document.getElementsByTagName('rome')).find('input');
-      var search_element;
+      let has_id = romeValidator.indexOf('#') === 0;
+      let matched_element;
+      let search_attr;
+      let rome_elements = angular.element(document.getElementsByTagName('rome')).find('input');
+      let search_element;
       if (has_id) {
         matched_element = angular.element(document.getElementById(romeValidator.substr(1)));
       } else {
-        for (var i = 0; i < rome_elements.length; i++) {
+        for (let i = 0; i < rome_elements.length; i++) {
           if (rome_elements[i].getAttribute('ng-model') == romeValidator) {
             matched_element = angular.element(rome_elements[i]);
             break;
@@ -76,16 +77,16 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
     template: '<div class="rome-container">' +
       '<input type="text" ng-transclude class="rome-input"></div>',
     link: function (scope, el, attrs) {
-      var romeInstance;
-      var input = el.find('input');
+      let romeInstance;
+      let input = el.find('input');
       /**
        * Rome Config
        *
        * Merges with romeDefaultsProvider value, which then merges with the rome default values.
        * Merge romeDefaults with an object to avoid romeDefaults being modified in the merge.
        */
-      var temp_config = _merge({}, romeDefaults);
-      var config = _merge(temp_config, {
+      let temp_config = merge({}, romeDefaults);
+      let config = merge(temp_config, {
         time: stringToBool(attrs.romeTime),
         date: stringToBool(attrs.romeDate),
         initialValue: attrs.romeInitialValue || moment().millisecond(0).second(0).minute(0).hour(0),
@@ -164,4 +165,5 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
   };
 }]);
 
-module.exports = rome_module;
+const moduleName = romeModule.name;
+export default moduleName

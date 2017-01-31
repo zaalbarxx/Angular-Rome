@@ -71,10 +71,14 @@ module.exports = function (grunt) {
     browserify: {
       build: {
         files: {
-          'dist/index.js': 'dist/index.js',
+          'dist/index.js': 'index.js',
         },
         options: {
-          transform: ['brfs']
+          transform: [
+            ['babelify', { presets: ['es2015', 'es2016'] }],
+            'browserify-ngannotate',
+            'brfs',
+          ]
         }
       }
     },
@@ -87,16 +91,6 @@ module.exports = function (grunt) {
           'dist/index.js': 'dist/index.js',
         },
       }
-    },
-    ngAnnotate: {
-      options: {
-        singleQuotes: true,
-      },
-      dist: {
-        files: {
-          'dist/index.js': 'index.js',
-        },
-      },
     },
     eslint: {
       options: {
@@ -148,9 +142,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'sass:dist',
     'autoprefixer:dist',
-    'ngAnnotate',
-    'browserify',
-    'uglify'
+    'browserify'
   ]);
 
 };
