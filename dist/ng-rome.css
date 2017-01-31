@@ -1,17 +1,7 @@
 .rome-container {
   position: relative; }
 
-.rome-view {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: auto;
-  padding: 0.375em 0.75em;
-  pointer-events: none; }
-
 .rome-input {
-  text-indent: -9999px;
   cursor: pointer; }
 
 .rd-container {

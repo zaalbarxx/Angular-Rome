@@ -4,7 +4,11 @@
   "description": "An Angular directive for Rome, a dependency free datepicker",
   "main": "dist/index.js",
   "scripts": {
+    "build": "bower build",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "pre-commit": {
+    "build",
   },
   "keywords": [
     "angular",
@@ -30,6 +34,7 @@
     "grunt-contrib-watch": "^0.6.1",
     "grunt-ng-annotate": "^3.0.0",
     "grunt-sass": "^2.0.0",
-    "load-grunt-tasks": "^0.6.0"
+    "load-grunt-tasks": "^0.6.0",
+    "pre-commit": "^1.2.2"
   }
 }
