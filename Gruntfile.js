@@ -6,7 +6,7 @@ module.exports = function (grunt) {
   require('load-grunt-tasks')(grunt);
 
   var username = grunt.option('username'),
-  password = grunt.option('password');
+    password = grunt.option('password');
 
   grunt.initConfig({
 
@@ -71,26 +71,33 @@ module.exports = function (grunt) {
     browserify: {
       build: {
         files: {
-          'js/portal.js': [
-          'js/app.js'
-        ]
+          'dist/index.js': 'dist/index.js',
         },
         options: {
           transform: ['brfs']
         }
       }
-    }
+    },
     uglify: {
       options: {
         mangle: false
       },
       build: {
         files: {
-          'js/portal.min.js': ['js/portal.js']
-        }
+          'dist/index.js': 'dist/index.js',
+        },
       }
     },
-
+    ngAnnotate: {
+      options: {
+        singleQuotes: true,
+      },
+      dist: {
+        files: {
+          'dist/index.js': 'index.js',
+        },
+      },
+    },
     eslint: {
       options: {
         config: '.eslintrc'
@@ -122,7 +129,7 @@ module.exports = function (grunt) {
           style: 'compressed'
         },
         files: {
-          'dist/ng-rome.css': 'sass/rome.scss'
+          'dist/ng-rome.css': 'sass/rome.sass'
         }
       }
     },
@@ -135,14 +142,13 @@ module.exports = function (grunt) {
         src: 'dist/ng-rome.css'
       }
     }
-  );
+  });
 
   grunt.registerTask('default', []);
   grunt.registerTask('build', [
     'sass:dist',
-    'autoprefixer',
+    'autoprefixer:dist',
     'ngAnnotate',
-    'ngtemplates',
     'browserify',
     'uglify'
   ]);
