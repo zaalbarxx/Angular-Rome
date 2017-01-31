@@ -76,7 +76,7 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
     template: '<div class="rome-container">' +
       '<input type="text" ng-transclude class="rome-input"></div>',
     link: function (scope, el, attrs) {
-      var rome_instance;
+      var romeInstance;
       var input = el.find('input');
       /**
        * Rome Config
@@ -101,10 +101,10 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
       /**
        * Initialize Rome with the merged config from above.
        */
-      rome_instance = rome(input[0], config);
+      romeInstance = rome(input[0], config);
 
       scope.options.getApi = function() {
-        return rome_instance;
+        return romeInstance;
       };
 
       // Hack to ensure all other rome directives are loaded so range validation will find a matching element.
@@ -135,17 +135,17 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
       });
 
       function formatDate() {
-        scope.ngModel = rome_instance.getDateString(attrs.viewFormat || romeDefaults.labelValue);
+        scope.ngModel = romeInstance.getDateString(attrs.viewFormat || romeDefaults.labelValue);
       }
 
-      rome_instance.on('ready', function() {
+      romeInstance.on('ready', function() {
         scope.$apply(function () {
-          rome_instance.setValue(scope.ngModel);
+          romeInstance.setValue(scope.ngModel);
           formatDate();
         });
       });
 
-      rome_instance.on('data', function (value) {
+      romeInstance.on('data', function (value) {
         scope.$apply(function () {
           formatDate();
         });
@@ -153,9 +153,13 @@ rome_module.directive('rome', ['romeDefaults', '$interval', function romeDirecti
 
       scope.$watch('ngModel', function(value) {
         if (value) {
-          rome_instance.setValue(value);
+          romeInstance.setValue(value);
         }
       }, true);
+
+      attrs.$observe('config', function(newConfig) {
+        romeInstance.config(newConfig);
+      })
     }
   };
 }]);
