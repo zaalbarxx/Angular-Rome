@@ -76,7 +76,6 @@ module.exports = function (grunt) {
       options: {
         plugins: [
           babel(),
-          uglify(),
         ],
         format: 'cjs'
       },
@@ -85,15 +84,15 @@ module.exports = function (grunt) {
         dest: 'dist/index.js'
       }
     },
-    eslint: {
+    uglify: {
       options: {
-        config: '.eslintrc'
+        mangle: true,
       },
-      all: [
-        'index.js'
-      ]
+      files: {
+        src: ['dist/index.js'],
+        dest: 'dist/index.min.js'
+      }
     },
-
     //   ____   ____    ____
     //  / ___| / ___|  / ___|
     // | |     \___ \  \___ \
@@ -135,7 +134,8 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'sass:dist',
     'autoprefixer:dist',
-    'rollup:dist'
+    'rollup:dist',
+    'uglify'
   ]);
 
 };
