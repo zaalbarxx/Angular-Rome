@@ -24,6 +24,9 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
     return (str) ? ((str == 'true') ? true : false) : true
   }
 
+  function isObject(object) {
+    return typeof object === 'object' && object !== null
+  }
   /**
    * Validation
    * Pass rome-* a the ng-model of a rome element
@@ -72,6 +75,7 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
       ngModel: '=',
       ngChange: '=?',
       options: '<',
+      api: '<'
     },
     require: '^ngModel',
     template: '<div class="rome-container">' +
@@ -104,9 +108,12 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
        */
       romeInstance = rome(input[0], config);
 
-      scope.options.getApi = function() {
-        return romeInstance;
-      };
+      if(isObject(scope.options)) {
+        scope.options.getApi = function() {
+          return romeInstance;
+        };
+      }
+
 
       // Hack to ensure all other rome directives are loaded so range validation will find a matching element.
       $interval(function () {
