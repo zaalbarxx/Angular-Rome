@@ -76,10 +76,9 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
       ngChange: '=?',
       options: '<',
     },
-    controllerAs: 'vm',
     require: '^ngModel',
     template: '<div class="rome-container">' +
-      '<input type="text" ng-transclude class="rome-input {{vm.options.inputClass}}"></div>',
+      '<input type="text" ng-transclude class="rome-input {{options.inputClass}}"></div>',
     link: function (scope, el, attrs) {
       let romeInstance;
       let input = el.find('input');
