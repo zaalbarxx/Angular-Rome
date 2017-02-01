@@ -4,7 +4,7 @@
   "description": "An Angular directive for Rome, a dependency free datepicker",
   "main": "dist/index.js",
   "scripts": {
-    "build": "grunt build",
+    "build": "grunt build && git add ./",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "pre-commit": [
