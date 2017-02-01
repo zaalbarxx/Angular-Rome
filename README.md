@@ -35,8 +35,12 @@ All The Things
 ```options```
 You can pass an object with any options handled by Rome, they will be pased through to the Rome instance.
 
+```options.inputClass```
+Allows to pass the CSS classes string that will be applied to the Rome input
+
 Aside of that after the instance of Rome will be created you will be able to call ```getApi()``` method
 that will get bound to your ```options``` object to get the underlying Rome instance API.
+
 ## Contributing
 
 1. Fork it!
