@@ -75,11 +75,11 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
       ngModel: '=',
       ngChange: '=?',
       options: '<',
-      api: '<'
     },
+    controllerAs: 'vm',
     require: '^ngModel',
     template: '<div class="rome-container">' +
-      '<input type="text" ng-transclude class="rome-input"></div>',
+      '<input type="text" ng-transclude class="rome-input {{vm.options.inputClass}}"></div>',
     link: function (scope, el, attrs) {
       let romeInstance;
       let input = el.find('input');
@@ -90,18 +90,20 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
        * Merge romeDefaults with an object to avoid romeDefaults being modified in the merge.
        */
       let temp_config = merge({}, romeDefaults);
+      let options = isObject(scope.options) ? scope.options : {};
+
       let config = merge(temp_config, {
-        time: stringToBool(attrs.romeTime),
-        date: stringToBool(attrs.romeDate),
-        initialValue: attrs.romeInitialValue || moment().millisecond(0).second(0).minute(0).hour(0),
+        time: stringToBool(options.time),
+        date: stringToBool(attrs.date),
+        initialValue: options.initialValue || moment().millisecond(0).second(0).minute(0).hour(0),
         autoHideOnBlur: true,
-        weekStart: attrs.romeWeekStart,
-        monthsInCalendar: attrs.romeMonthsInCalendar,
-        min: attrs.romeMin,
-        max: attrs.romeMax,
-        inputFormat: attrs.romeInputFormat,
-        timeInterval: attrs.romeTimeInterval
-      }, scope.options);
+        weekStart: attrs.weekStart,
+        monthsInCalendar: attrs.monthsInCalendar,
+        min: attrs.min,
+        max: attrs.max,
+        inputFormat: attrs.inputFormat,
+        timeInterval: attrs.timeInterval
+      }, options);
 
       /**
        * Initialize Rome with the merged config from above.

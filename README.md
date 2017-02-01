@@ -28,13 +28,15 @@ Basic Example
 
 All The Things
 ```html
-<rome ng-model="vm.whatevs" rome-time="true" rome-date="true" rome-initial-value="" rome-min="" rome-max="" rome-time-interval="" rome-input-format="" rome-week-start="" rome-before="" rome-before-eq="" rome-after="" rome-after-eq="" rome-months-in-calendar=""></rome>
+<rome ng-model="vm.whatevs" options="vm.options"></rome>
 ```
 
 ## Properties
-* `rome-after`, `rome-after-eq`, `rome-before`, `rome-before-eq` accept an ng-model for a rome object.
-* TODO: Add more datas.
+```options```
+You can pass an object with any options handled by Rome, they will be pased through to the Rome instance.
 
+Aside of that after the instance of Rome will be created you will be able to call ```getApi()``` method
+that will get bound to your ```options``` object to get the underlying Rome instance API.
 ## Contributing
 
 1. Fork it!
