@@ -166,4 +166,4 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
 }]);
 
 const moduleName = romeModule.name;
-export default moduleName
+export default moduleName;

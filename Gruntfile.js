@@ -1,5 +1,9 @@
 /*jslint node: true*/
 /*jslint unparam: true*/
+let babel = require('rollup-plugin-babel');
+let uglify = require('rollup-plugin-uglify');
+let path = require('path');
+
 module.exports = function (grunt) {
   "use strict";
 
@@ -68,28 +72,17 @@ module.exports = function (grunt) {
     // | |_| | | (_| |  \ V /  | (_| |  ___) | | (__  | |    | | | |_) | | |_
     //  \___/   \__,_|   \_/    \__,_| |____/   \___| |_|    |_| | .__/   \__|
     //                                                           |_|
-    browserify: {
-      build: {
-        files: {
-          'dist/index.js': 'index.js',
-        },
-        options: {
-          transform: [
-            ['babelify', { presets: ['es2015', 'es2016'] }],
-            'browserify-ngannotate',
-            'brfs',
-          ]
-        }
-      }
-    },
-    uglify: {
+    rollup: {
       options: {
-        mangle: false
+        plugins: [
+          babel(),
+          uglify(),
+        ],
+        format: 'cjs'
       },
-      build: {
-        files: {
-          'dist/index.js': 'dist/index.js',
-        },
+      dist: {
+        src: ['index.js'],
+        dest: 'dist/index.js'
       }
     },
     eslint: {
@@ -142,7 +135,7 @@ module.exports = function (grunt) {
   grunt.registerTask('build', [
     'sass:dist',
     'autoprefixer:dist',
-    'browserify'
+    'rollup:dist'
   ]);
 
 };
