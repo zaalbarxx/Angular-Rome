@@ -94,7 +94,7 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
       let config = merge(temp_config, {
         time: stringToBool(options.time),
         date: stringToBool(attrs.date),
-        initialValue: options.initialValue || moment().millisecond(0).second(0).minute(0).hour(0),
+        initialValue: scope.ngModel || moment().millisecond(0).second(0).minute(0).hour(0),
         autoHideOnBlur: true,
         weekStart: attrs.weekStart,
         monthsInCalendar: attrs.monthsInCalendar,
@@ -162,7 +162,7 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
 
       scope.$watch('ngModel', function(value) {
         if (value) {
-          romeInstance.setValue(value);
+          romeInstance.setValue(value).emitValues();
         }
       }, true);
 

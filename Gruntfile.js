@@ -1,7 +1,6 @@
 /*jslint node: true*/
 /*jslint unparam: true*/
 let babel = require('rollup-plugin-babel');
-let uglify = require('rollup-plugin-uglify');
 let path = require('path');
 
 module.exports = function (grunt) {
@@ -19,53 +18,6 @@ module.exports = function (grunt) {
     //  \ \ /\ / /   / _` | | __|  / __| | '_ \
     //   \ V  V /   | (_| | | |_  | (__  | | | |
     //    \_/\_/     \__,_|  \__|  \___| |_| |_|
-    watch: {
-      js: {
-        files: [
-          'js/*.js',
-          'js/**/*.js',
-          '!js/portal.js',
-          '!js/portal.min.js',
-          'node_modules/angular-rome/index.js'
-        ],
-        tasks: ['browserify'],
-        options: {
-          spawn: false,
-          livereload: true
-        }
-      },
-      css: {
-        files: [
-          'sass/*.scss',
-          'sass/**/*.scss',
-          'sass/*.sass',
-          'sass/**/*.sass',
-          'node_modules/angular-rome/sass/*'
-        ],
-        tasks: ['sass:dist', 'autoprefixer:dist'],
-        options: {
-          spawn: true
-        }
-      },
-      templates: {
-        files: [
-          'templates/**/*.html',
-          'templates/*.html'
-        ],
-        tasks: ['ngtemplates', 'browserify'],
-        options: {
-          spawn: false,
-          livereload: true
-        }
-      },
-      livereload: {
-        files: ['css/*.css'],
-        options: {
-          livereload: true
-        }
-      }
-    },
-
     //      _                           ____                  _           _
     //     | |   __ _  __   __   __ _  / ___|    ___   _ __  (_)  _ __   | |_
     //  _  | |  / _` | \ \ / /  / _` | \___ \   / __| | '__| | | | '_ \  | __|
