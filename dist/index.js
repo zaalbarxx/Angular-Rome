@@ -151,26 +151,27 @@ romeModule.directive('rome', ['romeDefaults', '$interval', function romeDirectiv
         }
       });
 
-      function formatDate() {
-        scope.ngModel = romeInstance.getDateString(attrs.viewFormat || romeDefaults.labelValue);
+      function getFormattedDate() {
+        return romeInstance.getDateString(attrs.viewFormat || romeDefaults.labelValue);
       }
 
       romeInstance.on('ready', function () {
         scope.$apply(function () {
           romeInstance.setValue(scope.ngModel);
-          formatDate();
+          scope.ngModel = getFormattedDate();
         });
       });
 
       romeInstance.on('data', function (value) {
         scope.$apply(function () {
-          formatDate();
+          scope.ngModel = getFormattedDate();
         });
       });
 
       scope.$watch('ngModel', function (value) {
         if (value) {
-          romeInstance.setValue(value).emitValues();
+          romeInstance.setValue(value);
+          input[0].value = getFormattedDate();
         }
       }, true);
 
